@@ -1,4 +1,4 @@
-This folder contains the codes that I wrote for covariance matrix estimation, in the framework of the collaboration with A. Musolas.
+This folder contains the codes I wrote for covariance matrix estimation, in the framework of the collaboration with A. Musolas.
 
 The main files are :
 	- run_opti_bezier_quotient.m, 
