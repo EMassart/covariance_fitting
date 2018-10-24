@@ -27,11 +27,11 @@ train_data = data_points_external_frame(r);      % training data
 
 
 %-----------------------------------------------------------------------------------------------------------------------------------
-% Compute the Bezier surface on these data (not required to solve the
-% optimization problem)
-sampling = 11;
-gamma_bezier_G = bezier_G(train_data, sampling);
-fprintf('bezier_G done... \n');
+% % Compute the Bezier surface on these data (not required to solve the
+% % optimization problem)
+% sampling = 11;
+% gamma_bezier_quotient = bezier_quotient(train_data, sampling);
+% fprintf('bezier_quotient done... \n');
 %-----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -45,9 +45,9 @@ l_test = s1*s2;
 
 
 %-----------------------------------------------------------------------------------------------------------------------------------
-[m_tot, n_tot] = size(gamma_bezier_G);
-error_grid = zeros(m_tot, n_tot, l_test);
-error_grid_rec = zeros(1, l_test);
+% [m_tot, n_tot] = size(gamma_bezier_quotient);
+% error_grid = zeros(m_tot, n_tot, l_test);
+% error_grid_rec = zeros(1, l_test);
 %-----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -64,28 +64,28 @@ for i_test = 1:l_test
     
     
     %-----------------------------------------------------------------------------------------------------------------------------------
-    for i_eval = 1:m_tot
-        fprintf('i_eval = %d \n', i_eval);
-        for j_eval = 1:n_tot
-            C = gamma_bezier_G{i_eval,j_eval}*gamma_bezier_G{i_eval,j_eval}';
-            error_grid(i_eval, j_eval, i_test) = norm(C - C_ref,'fro')^2;
-        end
-    end
-    error_grid_rec(i_test) = min(min(error_grid(:,:,i_test)));
-    fprintf('Best value obtained from grid = %4.2e \n', error_grid_rec(i_test));
+%     for i_eval = 1:m_tot
+%         fprintf('i_eval = %d \n', i_eval);
+%         for j_eval = 1:n_tot
+%             C = gamma_bezier_quotient{i_eval,j_eval}*gamma_bezier_quotient{i_eval,j_eval}';
+%             error_grid(i_eval, j_eval, i_test) = norm(C - C_ref,'fro')^2;
+%         end
+%     end
+%     error_grid_rec(i_test) = min(min(error_grid(:,:,i_test)));
+%     fprintf('Best value obtained from grid = %4.2e \n', error_grid_rec(i_test));
     %-----------------------------------------------------------------------------------------------------------------------------------
 
     
     
-    [x_end, info] = steepest_descent_for_bezier(train_data, C_ref, struct());
+    [x_end, info] = steepest_descent_for_bezier_quotient(train_data, C_ref, struct());
     error_SD_rec(i_test) = info.f(info.k);
     sol_SD_rec(:,i_test) = x_end';
 end
 
-save('error_bezier_geod_SD.mat', 'error_SD_rec', 'sol_SD_rec', 'r');
+save('error_bezier_quotient_SD.mat', 'error_SD_rec', 'sol_SD_rec', 'r');
 
 %-----------------------------------------------------------------------------------------------------------------------------------
-save('error_bezier_geod_grid.mat', 'error_grid', 'error_grid_rec', 'sampling');
+% save('error_bezier_quotient_grid.mat', 'error_grid', 'error_grid_rec', 'sampling');
 %-----------------------------------------------------------------------------------------------------------------------------------
 
 

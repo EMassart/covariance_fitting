@@ -1,7 +1,7 @@
-This folder contains the code written for covariance matrix estimation, in the framework of the collaboration with A. Musolas.
+This folder contains the codes that I wrote for covariance matrix estimation, in the framework of the collaboration with A. Musolas.
 
 The main files are :
-	- run_opti_bezier_geod.m, 
+	- run_opti_bezier_quotient.m, 
 	- run_opti_bezier_section.m,
 	- run_opti_piecewise_bilinear.m
 
@@ -10,7 +10,7 @@ Those three files load the data, and perform the tests in order to recover the r
 --------------------------------------------------------------------------------------------------
 IMPORTANT WARNING : the data are not contained in this git repo, you should upload them first. 
 Here is how to proceed for the wind field data:
-- create a folder data_surface_extracted
+- create a subfolder data_points/data_surface_extracted
 - download the data, and store them in this folder, in the following form. Each data is stored in a separate .mat file. The file should contain directly the Y factorization of the data, i.e., if the true covariance matrix is C = YY', we store directly the Y factor. This Y factor is expected to be a matrix of size 3024 x 3024, whose columns have decreasing magnitude, so that to truncate the rank to r, we just have to keep the r first columns. 
 - rename the mat file as Yuv_xyz.mat. For example, the file containing the data associated with a heading = 1,5pi/32 and a magnitude 1 will be named Y15_010.mat, while the one associated with heading = 4 pi /32 and magnitude 13 will be Y40_130.mat (so, basically, we keep one number to characterize the decimal part of the parameter)
 --------------------------------------------------------------------------------------------------

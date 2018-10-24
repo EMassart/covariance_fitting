@@ -45,12 +45,12 @@ end
 l_test = s1*s2;
 
 
-%-----------------------------------------------------------------------------------------------------------------------------------
-t1 = linspace(0,1,11);
-t2 = linspace(0,1,11);
-error_grid = zeros(4, length(t1), length(t2), l_test);
-error_grid_rec = zeros(4, l_test);
-%-----------------------------------------------------------------------------------------------------------------------------------
+%START SANITY CHECK PART-----------------------------------------------------------------------------------------------------------------------------------
+% t1 = linspace(0,1,11);
+% t2 = linspace(0,1,11);
+% error_grid = zeros(4, length(t1), length(t2), l_test);
+% error_grid_rec = zeros(4, l_test);
+%STOP SANITY CHECK PART------------------------------------------------------------------------------------------------------------------------------------
 
 error_SD_rec = zeros(4, l_test);
 sol_SD_rec = zeros(2, 4, l_test);
@@ -61,8 +61,6 @@ for i_test = 1:l_test
     
     C_ref = test_data{i_test}*test_data{i_test}';
     
-    
-    %-----------------------------------------------------------------------------------------------------------------------------------
     % select the corners of the patch
     Y = zeros(3024,r,4);
     Y(:,:,1) = train_data{patch{i_test}(2),patch{i_test}(1)};
@@ -70,71 +68,73 @@ for i_test = 1:l_test
     Y(:,:,3) = train_data{patch{i_test}(2),patch{i_test}(1)+1};
     Y(:,:,4) = train_data{patch{i_test}(2)+1,patch{i_test}(1)+1};
     
-    % interpolation based on geodesics
-    orth12 = orth_pol(Y(:,:,1)'*Y(:,:,2));
-    orth34 = orth_pol(Y(:,:,3)'*Y(:,:,4));
-    
-    for i = 1:length(t1)
-        for j = 1:length(t2)
-            Y12 = (1-t1(i))*Y(:,:,1) + t1(i)*Y(:,:,2)*orth12';
-            Y34 = (1-t1(i))*Y(:,:,3) + t1(i)*Y(:,:,4)*orth34';
-            orth = orth_pol(Y12'*Y34);
-            Ygamma = (1-t2(j))*Y12 + t2(j)*Y34*orth';
-            error_grid(1,i,j,i_test) = norm(Ygamma*Ygamma' - C_ref, 'fro')^2;
-        end
-    end
-    
-    % bilinear interpolation in the section
-        % section based on the lower_left anchor point
-    Y_section = zeros(size(Y));
-    Y_anchor_section = Y(:,:,1);
-    Y_section(:,:,1) = Y(:,:,1); 
-    for i_loc = 2:4
-        Q = orth_pol(Y_anchor_section'*Y(:,:,i_loc));
-        Y_section(:,:,i_loc) = Y(:,:,i_loc)*Q';
-    end
-    for i = 1:length(t1)
-        for j = 1:length(t2)
-            Ygamma = (1-t1(i))*(1-t2(j))*Y_section(:,:,1) + t1(i)*(1-t2(j))*Y_section(:,:,2) + (1-t1(i))*t2(j)*Y_section(:,:,3) + t1(i)*t2(j)*Y_section(:,:,4);
-            error_grid(2,i,j,i_test) = norm(Ygamma*Ygamma' - C_ref, 'fro')^2;
-        end
-    end
-    
-        % section based on the arithmetic mean
-    Y_section = zeros(size(Y));
-    Y_anchor_section =  m_arithm(Y);
-    for i_loc = 1:4
-        Q = orth_pol(Y_anchor_section'*Y(:,:,i_loc));
-        Y_section(:,:,i_loc) = Y(:,:,i_loc)*Q';
-    end
-    for i = 1:length(t1)
-        for j = 1:length(t2)
-            Ygamma = (1-t1(i))*(1-t2(j))*Y_section(:,:,1) + t1(i)*(1-t2(j))*Y_section(:,:,2) + (1-t1(i))*t2(j)*Y_section(:,:,3) + t1(i)*t2(j)*Y_section(:,:,4);
-            error_grid(3,i,j,i_test) = norm(Ygamma*Ygamma' - C_ref, 'fro')^2;
-        end
-    end
-    
-        % section based on the inductive mean
-    Y_section = zeros(size(Y));
-    Y_anchor_section =  m_ind(Y);
-    for i_loc = 1:4
-        Q = orth_pol(Y_anchor_section'*Y(:,:,i_loc));
-        Y_section(:,:,i_loc) = Y(:,:,i_loc)*Q';
-    end
-    for i = 1:length(t1)
-        for j = 1:length(t2)
-            Ygamma = (1-t1(i))*(1-t2(j))*Y_section(:,:,1) + t1(i)*(1-t2(j))*Y_section(:,:,2) + (1-t1(i))*t2(j)*Y_section(:,:,3) + t1(i)*t2(j)*Y_section(:,:,4);
-            error_grid(4,i,j,i_test) = norm(Ygamma*Ygamma' - C_ref, 'fro')^2;
-        end
-    end
-    
-            
-    for i = 1:4
-        error_grid_rec(i,i_test) = min(min(error_grid(i,:,:,i_test)));
-    end
-        
-    fprintf('------------------------------------------ Errors on grid: %4.2e, %4.2e, %4.2e, %4.2e \n',  error_grid_rec(1,i_test),  error_grid_rec(2,i_test),  error_grid_rec(3,i_test),  error_grid_rec(4,i_test));
-    %-----------------------------------------------------------------------------------------------------------------------------------
+    %START SANITY CHECK PART-----------------------------------------------------------------------------------------------------------------------------------
+
+%     % interpolation based on geodesics
+%     orth12 = orth_pol(Y(:,:,1)'*Y(:,:,2));
+%     orth34 = orth_pol(Y(:,:,3)'*Y(:,:,4));
+%     
+%     for i = 1:length(t1)
+%         for j = 1:length(t2)
+%             Y12 = (1-t1(i))*Y(:,:,1) + t1(i)*Y(:,:,2)*orth12';
+%             Y34 = (1-t1(i))*Y(:,:,3) + t1(i)*Y(:,:,4)*orth34';
+%             orth = orth_pol(Y12'*Y34);
+%             Ygamma = (1-t2(j))*Y12 + t2(j)*Y34*orth';
+%             error_grid(1,i,j,i_test) = norm(Ygamma*Ygamma' - C_ref, 'fro')^2;
+%         end
+%     end
+%     
+%     % bilinear interpolation in the section
+%         % section based on the lower_left anchor point
+%     Y_section = zeros(size(Y));
+%     Y_anchor_section = Y(:,:,1);
+%     Y_section(:,:,1) = Y(:,:,1); 
+%     for i_loc = 2:4
+%         Q = orth_pol(Y_anchor_section'*Y(:,:,i_loc));
+%         Y_section(:,:,i_loc) = Y(:,:,i_loc)*Q';
+%     end
+%     for i = 1:length(t1)
+%         for j = 1:length(t2)
+%             Ygamma = (1-t1(i))*(1-t2(j))*Y_section(:,:,1) + t1(i)*(1-t2(j))*Y_section(:,:,2) + (1-t1(i))*t2(j)*Y_section(:,:,3) + t1(i)*t2(j)*Y_section(:,:,4);
+%             error_grid(2,i,j,i_test) = norm(Ygamma*Ygamma' - C_ref, 'fro')^2;
+%         end
+%     end
+%     
+%         % section based on the arithmetic mean
+%     Y_section = zeros(size(Y));
+%     Y_anchor_section =  m_arithm(Y);
+%     for i_loc = 1:4
+%         Q = orth_pol(Y_anchor_section'*Y(:,:,i_loc));
+%         Y_section(:,:,i_loc) = Y(:,:,i_loc)*Q';
+%     end
+%     for i = 1:length(t1)
+%         for j = 1:length(t2)
+%             Ygamma = (1-t1(i))*(1-t2(j))*Y_section(:,:,1) + t1(i)*(1-t2(j))*Y_section(:,:,2) + (1-t1(i))*t2(j)*Y_section(:,:,3) + t1(i)*t2(j)*Y_section(:,:,4);
+%             error_grid(3,i,j,i_test) = norm(Ygamma*Ygamma' - C_ref, 'fro')^2;
+%         end
+%     end
+%     
+%         % section based on the inductive mean
+%     Y_section = zeros(size(Y));
+%     Y_anchor_section =  m_ind(Y);
+%     for i_loc = 1:4
+%         Q = orth_pol(Y_anchor_section'*Y(:,:,i_loc));
+%         Y_section(:,:,i_loc) = Y(:,:,i_loc)*Q';
+%     end
+%     for i = 1:length(t1)
+%         for j = 1:length(t2)
+%             Ygamma = (1-t1(i))*(1-t2(j))*Y_section(:,:,1) + t1(i)*(1-t2(j))*Y_section(:,:,2) + (1-t1(i))*t2(j)*Y_section(:,:,3) + t1(i)*t2(j)*Y_section(:,:,4);
+%             error_grid(4,i,j,i_test) = norm(Ygamma*Ygamma' - C_ref, 'fro')^2;
+%         end
+%     end
+%     
+%             
+%     for i = 1:4
+%         error_grid_rec(i,i_test) = min(min(error_grid(i,:,:,i_test)));
+%     end
+%         
+%     fprintf('------------------------------------------ Errors on grid: %4.2e, %4.2e, %4.2e, %4.2e \n',  error_grid_rec(1,i_test),  error_grid_rec(2,i_test),  error_grid_rec(3,i_test),  error_grid_rec(4,i_test));
+    %STOP SANITY CHECK PART------------------------------------------------------------------------------------------------------------------------------------
    
     % implementation of the optimization algorithms
     [~, info] = variable_projection(Y, C_ref);
@@ -146,24 +146,24 @@ for i_test = 1:l_test
     [~, info] = SD_patch_section(Y, C_ref, options);
     sol_SD_rec(:, 2, i_test) = [info.t1(info.nIter), info.t2(info.nIter)] ;
     error_SD_rec(2, i_test) = info.cost(info.nIter);
-    fprintf('----------Section approach first finished, optimal cost = %4.2e, sol = %4.2e, %4.2e \n', error_SD_rec(2,i_test), sol_SD_rec(1, 2, i_test), sol_SD_rec(2, 2, i_test));
+    fprintf('----------Section approach data finished, optimal cost = %4.2e, sol = %4.2e, %4.2e \n', error_SD_rec(2,i_test), sol_SD_rec(1, 2, i_test), sol_SD_rec(2, 2, i_test));
     
     options.foot = 'arithm';
     [~, info] = SD_patch_section(Y, C_ref, options);
     sol_SD_rec(:, 3, i_test) = [info.t1(info.nIter), info.t2(info.nIter)] ;
     error_SD_rec(3, i_test) = info.cost(info.nIter);
-    fprintf('----------Section approach arithm finished, optimal cost = %4.2e, sol = %4.2e, %4.2e \n', error_SD_rec(3,i_test), sol_SD_rec(1, 3, i_test), sol_SD_rec(2, 3, i_test))
+    fprintf('----------Section approach arithm. finished, optimal cost = %4.2e, sol = %4.2e, %4.2e \n', error_SD_rec(3,i_test), sol_SD_rec(1, 3, i_test), sol_SD_rec(2, 3, i_test))
     
     options.foot = 'inductive';
     [~, info] = SD_patch_section(Y, C_ref, options);
     sol_SD_rec(:, 4, i_test) = [info.t1(info.nIter), info.t2(info.nIter)] ;
     error_SD_rec(4, i_test) = info.cost(info.nIter);
-    fprintf('----------Section approach ind finished, optimal cost = %4.2e, sol = %4.2e, %4.2e \n', error_SD_rec(4,i_test), sol_SD_rec(1, 4, i_test), sol_SD_rec(2, 4, i_test));
+    fprintf('----------Section approach ind. finished, optimal cost = %4.2e, sol = %4.2e, %4.2e \n', error_SD_rec(4,i_test), sol_SD_rec(1, 4, i_test), sol_SD_rec(2, 4, i_test));
    
 end
 
 save('Results_piecewise_geod.mat', 'error_SD_rec', 'sol_SD_rec', 'params', 'patch', 'r');
 
-    %-----------------------------------------------------------------------------------------------------------------------------------
-    save('Results_patchwise_grid.mat', 'error_grid', 'error_grid_rec');
-    %-----------------------------------------------------------------------------------------------------------------------------------
+    %START SANITY CHECK PART-----------------------------------------------------------------------------------------------------------------------------------
+%     save('Results_patchwise_grid.mat', 'error_grid', 'error_grid_rec');
+    %STOP SANITY CHECK PART------------------------------------------------------------------------------------------------------------------------------------
