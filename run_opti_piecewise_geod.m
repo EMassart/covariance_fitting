@@ -1,4 +1,5 @@
 clear all; close all; clc;
+set_path;
 
 % Compute the optimal results for the piecewise bilinear geodesic and
 % section approaches.

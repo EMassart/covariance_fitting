@@ -4,6 +4,7 @@
 
 
 clear all; close all; clc;
+set_path;
 rng(0);
 
 % load the data

@@ -5,6 +5,7 @@
 
 clear all; close all; clc;
 rng(0);
+set_path;
 
 % load the data
 r = 20;                                          % rank to which the data are truncated
