@@ -2,7 +2,6 @@
 % 		Computes the logarithmic map from on the Euclidean space
 % 		from X to Y.
 % ------------------------------------------------------------
-% This file is part of the project "C1 bezier paths on surfaces"
 % 
 % INPUT: 	X : A point
 % 			Y : Another point
@@ -14,6 +13,12 @@
 % Versions
 % 	19/03/2014: first version.
 % 	18/06/2015: header changed.
+
+% This file comes from the project "C1 bezier paths on surfaces"
+% by Gousenbourger et al. 
+% The original project is downloadable at 
+% https://perso.uclouvain.be/pygousenbourger/#nt
+
 % ------------------------------------------------------------
 function v = log_eucl(x,y)
     v = x;

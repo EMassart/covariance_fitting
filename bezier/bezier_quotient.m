@@ -1,13 +1,16 @@
-function gamma = bezier_G(data, sampling)
-
+function gamma = bezier_quotient(data, sampling)
 % Run the Bézier algorithm to fit a suface to the data points. We are here
-% using the quotient metric C = YY', where the totla space is endowed with
+% using the quotient geometry C = YY', where the total space is endowed with
 % the Euclidean metric.
+% 
+% Input: - data : cell array containing the Y factors of the covariance 
+%                 matrices to be used as data.
+%        - sampling : sampling at which the surface will be evaluated
+% 
+% Author: E. Massart
+% Last modification: October 24, 2018
 
-
-% definition of the parameters
-[m,n] = size(data);
-manifold = 'psdG';
+manifold = 'psd_quotient';
 global_variables
 geo_functions
 problem  = prepare_structure(data,manifold,sampling);

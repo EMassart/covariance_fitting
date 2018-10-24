@@ -1,5 +1,5 @@
 function Ym = m_ind(Y_data)
-% Returns the arithmetic mean of the set of PSD matrices contained in C
+% Returns the inductive mean of the set of PSD matrices contained in C
 % Author: E. Massart
 % Version: October 4, 2018
 

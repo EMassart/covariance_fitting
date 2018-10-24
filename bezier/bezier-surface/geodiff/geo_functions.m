@@ -2,6 +2,12 @@
 %   Stores in geo_exp, geo_log, geo_norm, geo_map, geo_tp and geo_ps the
 %   correct function as a handle.
 
+% This file comes from the project "C1 bezier paths on surfaces"
+% by Gousenbourger et al. 
+% The original project is downloadable at 
+% https://perso.uclouvain.be/pygousenbourger/#nt
+
+
 switch manifold
     case 'euclidean'
         geo_exp  = @exp_eucl;
@@ -19,22 +25,14 @@ switch manifold
         geo_tp   = @tp_sphere;
         geo_ps   = @ps_sphere;
         geo_dist = @dist_sphere_geo;
-    case 'psdG'
-        geo_exp  = @exp_psdG;
-        geo_log  = @log_psdG;
-        geo_norm = @norm_psdG;
-        geo_map  = @(x,s,t,m) exp_psdG(x,log_psdG(x,s),t);
-        geo_tp   = @tp_psdG;
-        geo_ps   = @ps_psdG;
-        geo_dist = @dist_psdG_geo;
-    case 'psdS'
-        geo_exp  = @exp_psdS;
-        geo_log  = @log_psdS;
-        geo_norm = @norm_psdS;
-        geo_map  = @(x,s,t,m) exp_psdS(x,log_psdS(x,s),t);
-        geo_tp   = @tp_psdS;
-        geo_ps   = @ps_psdS;
-        geo_dist = @dist_psdS_geo;
+    case 'psd_quotient'
+        geo_exp  = @exp_psd_quotient;
+        geo_log  = @log_psd_quotient;
+        geo_norm = @norm_psd_quotient;
+        geo_map  = @(x,s,t,m) exp_psd_quotient(x,log_psd_quotient(x,s),t);
+        geo_tp   = @tp_psd_quotient;
+        geo_ps   = @ps_psd_quotient;
+        geo_dist = @dist_psd_quotient_geo;
     case 'SO3'
         geo_exp  = @exp_so3;
         geo_log  = @log_so3;

@@ -8,6 +8,12 @@
 %  OUTPUT: pb : the structure updated with the curve pb.curve stored in a
 %  tensor.
 
+% This file comes from the project "C1 bezier paths on surfaces"
+% by Gousenbourger et al. 
+% The original project is downloadable at 
+% https://perso.uclouvain.be/pygousenbourger/#nt
+
+
 function pb = curve_reconstruction_double_bezier_c1(pb,method)
 	global_variables;
 	

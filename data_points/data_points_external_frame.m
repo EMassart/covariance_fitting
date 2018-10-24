@@ -1,15 +1,24 @@
 function data = data_points_external_frame(r)
+% This code loads the data corresponding to the external frame (the
+% training set that we used).
+% The input r is the estimation of the rank of the covariance matrices (we
+% are going to work on the manifold of PSD matrices of rank r)
+% Author : E. Massart
+% Last modification: October 24, 2018
 
+% Values of the parameters that will correspond to the external frame
 heading = 0:1:4;
 magn = 4:3:13;
 
+
+% Load the data, and truncate the Y matrices to r columns. 
 m = length(magn);
 n = length(heading);
 
 data = cell(m,n);
 for i = 1:m
     for j = 1:n
-        f = strcat('../data_surface_extracted/Y',num2str(heading(j),'%2.1f'),'_',num2str(magn(i),'%2.1f'));
+        f = strcat('../data_surface_extracted/Y',sprintf('%2.1f',heading(j)),'_',sprintf('%04.1f',magn(i)));
         indx = strfind(f,'.');
         n_loc = length(indx);
         for i_loc = 1:n_loc

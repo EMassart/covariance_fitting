@@ -16,6 +16,12 @@
 %
 % Versions
 % 	04/11/2015: First version.
+
+% This file comes from the project "C1 bezier paths on surfaces"
+% by Gousenbourger et al. 
+% The original project is downloadable at 
+% https://perso.uclouvain.be/pygousenbourger/#nt
+
 % ------------------------------------------------------------
 
 function phat = phat(p,k)

@@ -1,7 +1,6 @@
 % FUNCTION NORM_EUCL(X): 
 % 		 Norms  a point X on the Euclidean space.
 % ------------------------------------------------------------
-% This file is part of the project "C1 bezier paths on surfaces"
 % 
 % INPUT: 	X : A point on the Euclidean space of size n
 %
@@ -12,6 +11,12 @@
 % Versions
 % 	19/03/2014: first version.
 % 	18/06/2015: header changed.
+
+% This file comes from the project "C1 bezier paths on surfaces"
+% by Gousenbourger et al. 
+% The original project is downloadable at 
+% https://perso.uclouvain.be/pygousenbourger/#nt
+
 % ------------------------------------------------------------
 function y = norm_eucl(x)
     y = x;

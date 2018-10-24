@@ -1,10 +1,15 @@
-function gamma = bezier_S(data, sampling, options)
-
+function gamma = bezier_section(data, sampling, options)
 % Run the Bézier algorithm to fit a suface to the data points. We are here
-% using the section approch associated to the quotient metric C = YY',
-% where the totla space is endowed with the Euclidean metric.
-
-
+% using Bezier interpolation in a section of the quotient manifold C = YY',
+% where the total space is endowed with
+% the Euclidean metric.
+% 
+% Input: - data : cell array containing the Y factors of the covariance 
+%                 matrices to be used as data.
+%        - sampling : sampling at which the surface will be evaluated
+% 
+% Author: E. Massart
+% Last modification: October 24, 2018
 % definition of the parameters
 [m,n] = size(data);
 manifold = 'euclidean';         % since in the section we are working as in an euclidean space

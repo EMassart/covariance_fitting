@@ -35,6 +35,12 @@
 %                             |   messages
 % 			pb.method         |  the method
 
+% This file comes from the project "C1 bezier paths on surfaces"
+% by Gousenbourger et al. 
+% The original project is downloadable at 
+% https://perso.uclouvain.be/pygousenbourger/#nt
+
+
 function pb = prepare_structure(data, manifold, sampling, sample, nint, object)
 	if nargin < 6
 		method = 1;

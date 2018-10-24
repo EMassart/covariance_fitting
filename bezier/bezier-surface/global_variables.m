@@ -1,3 +1,9 @@
+% This file comes from the project "C1 bezier paths on surfaces"
+% by Gousenbourger et al. 
+% The original project is downloadable at 
+% https://perso.uclouvain.be/pygousenbourger/#nt
+
+
 %global variables definitions
 
 global geo_exp;

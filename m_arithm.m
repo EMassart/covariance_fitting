@@ -1,7 +1,11 @@
 function Ym = m_arithm(Y_data)
-% Returns the arithmetic mean of the set of PSD matrices contained in C
+% Returns the arithmetic mean of the set of PSD matrices of rank r
+% contained in C.
+% The rank of the result is truncated in order to recover a matrix of rank r.
 % Author: E. Massart
 % Version: October 4, 2018
+
+
 if iscell(Y_data)
     data = cat(3,Y_data{:});
 else

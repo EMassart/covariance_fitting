@@ -1,6 +1,11 @@
 function grad = grad_analytic(pb, t1, t2)
+% This function computes the gradient of the Bezier surface B(t_1, t_2), in
+% the section (i.e., the Bezier surface is here computed in a Euclidean
+% space)
 
-% Input : -  control : cell of 4 x 4 control points
+% Author: E. Massart
+% Last modified on October 24, 2018
+
 
 % Compute the associated control points
 b      	= pb.control;

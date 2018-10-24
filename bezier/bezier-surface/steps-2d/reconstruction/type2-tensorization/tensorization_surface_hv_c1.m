@@ -10,6 +10,11 @@
 %
 % Output: the Bezier curve, in a matrix [dim1 x dim2]
 
+% This file comes from the project "C1 bezier paths on surfaces"
+% by Gousenbourger et al. 
+% The original project is downloadable at 
+% https://perso.uclouvain.be/pygousenbourger/#nt
+
 function y = tensorization_surface_hv_c1( b,d,t1,t2,n,m,nMax,mMax)
 
 horizontal_curve = cell(d+1,1);

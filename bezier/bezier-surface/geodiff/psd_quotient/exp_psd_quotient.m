@@ -1,24 +1,26 @@
-% FUNCTION EXP_EUCL(X,V,T): 
+% FUNCTION EXP_PSD_QUOTIENT(X,V,T): 
 % 		 Computes the exponential map from a point X on the
-% 		 Euclidean space, with initial velocity V and at time T.
-% ------------------------------------------------------------
-% This file is part of the project "C1 bezier paths on surfaces"
-% 
-% INPUT: 	X : A point on the Euclidean space of size n
+% 		 manifold of fixed rank PSD matrices, with initial velocity V and at time T.
+% ------------------------------------------------------------ 
+% INPUT: 	X : A point on the manifold of fixed rank PSD matrices (given as a Y
+%              factor, and not the full PSD matrix)
 % 			V : A starting velocity.
 % 			T : A time instant.
 %
 % OUTPUT: 	Y : The point reached on the Euclidean space
 % ------------------------------------------------------------
-% Author: Pierre-Yves Gousenbourger
+% Author: Estelle Massart
+%
+% This file is a extension of the files of the project "C1 bezier paths on surfaces"
+% by Gousenbourger et al to the manifold of PSD matrices.
+% The original project is downloadable at 
+% https://perso.uclouvain.be/pygousenbourger/#nt
+%
 % ------------------------------------------------------------
-% Versions
-% 	19/03/2014: first version.
-% 	18/06/2015: header changed.
+% Last modification: October 24, 2018
 % ------------------------------------------------------------
-function y = exp_psdG(x,v,t)
+function y = exp_psd_quotient(x,v,t)
 
-% same as in the Euclidean case since we are working in the total space
     if nargin < 3
         t = 1;
     end

@@ -2,6 +2,9 @@ function f = cost_function_bezier(pb, t1, t2)
 % This function reconstructs the value of the Bezier surface for the couple
 % of parameters (t_1, t_2), and compares it with the matrix pb.C
 
+% Author : E. Massart
+% Last modification : October 24th, 2018
+
 	global_variables
 
     % data
@@ -53,7 +56,7 @@ function f = cost_function_bezier(pb, t1, t2)
 		
     bb = b( ind_x ,  ind_y );
 		
-    % --- Reconstruction by overall mean
+    % --- Reconstruction --------------
     % ---------------------------------
 
     curve = tensorization_surface_hv_c1(bb,d,t1-k+1,t2-l+1,k,l,n-1,m-1);

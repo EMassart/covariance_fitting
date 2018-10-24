@@ -1,14 +1,13 @@
-function [x_sol, info] = sectional_approach_final(Y, C_hat, options)
+function [x_sol, info] = SD_patch_section(Y, C_hat, options)
 
 % Apply a steepest descent to the computation of the point of a sectional
 % surface that is the closest to a given data point C_hat.
 %
-% Inputs : A : 3D array, that contains the PSD matrices A_i, along the
-%              third dimension (i.e., A is of size n x n x 4, where n is the size of the
-%              PSD matrices to consider). Those matrices will be the anchor
+% Inputs : Y : 3D array, that contains the PSD matrices Y_i associated 
+%              to the corners of the patch, along the
+%              third dimension (i.e., Y is of size n x r x 4). Those matrices will be the anchor
 %              points of the surface.
-%          r : Rank of the PSD matrices A_i
-%          C_hat : PSD matrix obtained exeprimentally. The goal is to find
+%          C_hat : PSD matrix obtained experimentally. The goal is to find
 %                  the point of the surface that is the closest to C_hat
 %
 % Output : x_sol : vector x_sol = [t1_opt, t2_opt], such that the point of the surface 
@@ -17,19 +16,21 @@ function [x_sol, info] = sectional_approach_final(Y, C_hat, options)
 %          info : additional information, mainly related to the convergence of the method
 % 
 % Author : E.Massart
-% Version : March 13, 2018
-                
+% Last modification: October 24, 2018                
 
 % ------------------------------------------------------------------------------
 % ---------------------------------   INITIALIZATION ---------------
 % ------------------------------------------------------------------------------
 
+% starting point
 if ~isfield(options, 'x0')
     x0 = [0.5, 0.5];
 else
     x0 = options.x0;
 end
-if ~isfield(options, 'input')
+
+% foot of the section
+if ~isfield(options, 'foot')
     options.input = 'inductive';
 end
 
@@ -51,20 +52,20 @@ alpha = 1;
 
 % project on the section
 Y_gamma = zeros(size(Y));
-if strcmp(options.input, 'first')
+if strcmp(options.foot, 'data')
     Y_anchor_section = Y(:,:,1);
     Y_gamma(:,:,1) =  Y(:,:,1);
     for i_loc = 2:4
         Q = orth_pol(Y_anchor_section'*Y(:,:,i_loc));
         Y_gamma(:,:,i_loc) = Y(:,:,i_loc)*Q';
     end
-elseif strcmp(options.input, 'arithm')
+elseif strcmp(options.foot, 'arithm')
     Y_anchor_section = m_arithm(Y);
     for i_loc = 1:4
         Q = orth_pol(Y_anchor_section'*Y(:,:,i_loc));
         Y_gamma(:,:,i_loc) = Y(:,:,i_loc)*Q';
     end
-elseif strcmp(options.input, 'inductive')
+elseif strcmp(options.foot, 'inductive')
     Y_anchor_section = m_ind(Y);
     for i_loc = 1:4
         Q = orth_pol(Y_anchor_section'*Y(:,:,i_loc));
@@ -80,7 +81,7 @@ Y = Y_gamma;
 Y_gamma = (1-t1(1))*(1-t2(1))*Y(:,:,1) + t1(1)*(1-t2(1))*Y(:,:,2) + (1-t1(1))*t2(1)*Y(:,:,3) + t1(1)*t2(1)*Y(:,:,4);
 gamma = Y_gamma*Y_gamma';
 
-% evaluate cost function for those values of t1 and many values of t2
+% evaluate cost function
 cost(1) = norm(gamma - C_hat,'fro')^2;
 
 
@@ -160,46 +161,3 @@ info.nIter = k;
 x_sol = [t1(k), t2(k)];
 
 end
-
-
-    % -------------------------------  Implement Armijo conditions for stepsize
-%     m = 0;
-%     m_max = 150;
-%     sigma = 0.0001;
-%     beta = 0.5;
-%     alpha = 0.0001;
-%     t1(k+1) = t1(k) - alpha*beta^m*grad(1,k);
-%     t2(k+1) = t2(k) - alpha*beta^m*grad(2,k);
-%     Y_gamma = (1-t1(k+1))*(1-t2(k+1))*Y(:,:,1) + t1(k+1)*(1-t2(k+1))*Y(:,:,2) + (1-t1(k+1))*t2(k+1)*Y(:,:,3) + t1(k+1)*t2(k+1)*Y(:,:,4);
-%     gamma = Y_gamma*Y_gamma';
-%     cost(k+1) = norm(C_hat - gamma,'fro')^2;
-%     while (cost(k) - cost(k+1)) < sigma*alpha*beta^m*norm(grad(:,k))^2 && m < m_max
-%         m = m+1;
-%         t1(k+1) = t1(k) - alpha*beta^m*grad(1,k);
-%         t2(k+1) = t2(k) - alpha*beta^m*grad(2,k);
-%         Y_gamma = (1-t1(k+1))*(1-t2(k+1))*Y(:,:,1) + t1(k+1)*(1-t2(k+1))*Y(:,:,2) + (1-t1(k+1))*t2(k+1)*Y(:,:,3) + t1(k+1)*t2(k+1)*Y(:,:,4);
-%         gamma = Y_gamma*Y_gamma';
-%         cost(k+1) = norm(C_hat - gamma,'fro')^2;
-%     end
-%     
-%     if m == m_max,
-%         fprintf('Maximum m allowed in armijo backtracking \n');
-%         m = 0;
-%         m_max = 150;
-%         beta = 0.5;
-%         alpha = 1;
-%         t1(k+1) = t1(k) - alpha*beta^m*grad(1,k);
-%         t2(k+1) = t2(k) - alpha*beta^m*grad(2,k);
-%         Y_gamma = (1-t1(k+1))*(1-t2(k+1))*Y(:,:,1) + t1(k+1)*(1-t2(k+1))*Y(:,:,2) + (1-t1(k+1))*t2(k+1)*Y(:,:,3) + t1(k+1)*t2(k+1)*Y(:,:,4);
-%         gamma = Y_gamma*Y_gamma';
-%         cost(k+1) = norm(C_hat - gamma,'fro')^2;
-%         while (cost(k) - cost(k+1)) < 0 && m < m_max
-%             m = m+1;
-%             t1(k+1) = t1(k) - alpha*beta^m*grad(1,k);
-%             t2(k+1) = t2(k) - alpha*beta^m*grad(2,k);
-%             Y_gamma = (1-t1(k+1))*(1-t2(k+1))*Y(:,:,1) + t1(k+1)*(1-t2(k+1))*Y(:,:,2) + (1-t1(k+1))*t2(k+1)*Y(:,:,3) + t1(k+1)*t2(k+1)*Y(:,:,4);
-%             gamma = Y_gamma*Y_gamma';
-%             cost(k+1) = norm(C_hat - gamma,'fro')^2;
-%         end 
-%     end
-

@@ -1,17 +1,12 @@
-function [x_sol, info] = variable_projection_final(Y, C_hat, options)
-
-% WARNING / MODIFIED VERSION / WORK DIRECTLY ON THE Y FACTORS....
-
+function [x_sol, info] = variable_projection(Y, C_hat, options)
 
 % Apply a variable projection method to the computation of the point of a
 % surface that is the closest to a given data point C_hat.
 %
-% Inputs : A : 3D array, that contains the PSD matrices A_i, along the
-%              third dimension (i.e., A is of size n x n x 4, where n is the size of the
-%              PSD matrices to consider). Those matrices will be the anchor
-%              points of the surface.
-%          r : Rank of the PSD matrices A_i
-%          C_hat : PSD matrix obtained exeprimentally. The goal is to find
+% Inputs : Y : 3D array, that contains the PSD matrices Y_i, along the
+%              third dimension (i.e., Y is of size n x r x 4). Those 
+%              matrices will be the anchor points of the surface.
+%          C_hat : PSD matrix obtained exprimentally. The goal is to find
 %                  the point of the surface that is the closest to C_hat
 %
 % Output : x_sol : vector x_sol = [t1_opt, t2_opt], such that the point of the surface 
@@ -20,13 +15,11 @@ function [x_sol, info] = variable_projection_final(Y, C_hat, options)
 %          info : additional information, mainly related to the convergence of the method
 % 
 % Author : E.Massart
-% Version : March 13, 2018
-                
+% Last modification: October 24, 2018                
 
 % ------------------------------------------------------------------------------
 % ---------------------------------   INITIALIZATION ---------------
 % ------------------------------------------------------------------------------
-
 
 
 if  ~exist('options','var')

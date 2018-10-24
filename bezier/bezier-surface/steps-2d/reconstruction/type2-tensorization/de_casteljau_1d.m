@@ -11,6 +11,11 @@
 %
 % Output: the B�zier curve, in a tensor [dim1 x dim 2 x m]
 
+% This file comes from the project "C1 bezier paths on surfaces"
+% by Gousenbourger et al. 
+% The original project is downloadable at 
+% https://perso.uclouvain.be/pygousenbourger/#nt
+
 function y = de_casteljau_1d(p,t,discr,fig,perc,pieces)
     global_variables;
     

@@ -1,7 +1,6 @@
 % FUNCTION PS_EUCL(S,T,X,Y): 
 % 		Computes the scalar product on the Euclidean space.
 % ------------------------------------------------------------
-% This file is part of the project "C1 bezier paths on surfaces"
 % 
 % INPUT: 	S : A point on the tangent space in X.
 % 			T : A point on the tangent space in Y.
@@ -15,6 +14,12 @@
 % Versions
 % 	19/03/2014: first version.
 % 	18/06/2015: header changed.
+
+% This file comes from the project "C1 bezier paths on surfaces"
+% by Gousenbourger et al. 
+% The original project is downloadable at 
+% https://perso.uclouvain.be/pygousenbourger/#nt
+
 % ------------------------------------------------------------
 
 function p = ps_eucl(s,t,x,y)
