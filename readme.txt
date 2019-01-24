@@ -5,7 +5,7 @@ The main files are :
 	- run_opti_bezier_section.m,
 	- run_opti_piecewise_bilinear.m
 
-Those three files load the data, and perform the tests in order to recover the results from the paper. 
+Those three files load the data, and perform the tests in order to recover the results from the paper, in the estimation framework. For the interpolation problem, please use compare_the_surfaces_interpolation.m. 
 
 --------------------------------------------------------------------------------------------------
 IMPORTANT WARNING : the data are not contained in this git repo, you should download them first. 
