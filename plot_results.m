@@ -43,10 +43,10 @@ for i_test = 1:s(1)*s(2)
     % the four corners of the associated patch (required for normalization 
     % with respect to the average square distance towards the orners of the patch)
     Y = zeros(3024,20,4);
-    Y(:,:,1) = train_data{patch{i_test}(2),patch{i_test}(1)};
-    Y(:,:,2) = train_data{patch{i_test}(2)+1,patch{i_test}(1)};
-    Y(:,:,3) = train_data{patch{i_test}(2),patch{i_test}(1)+1};
-    Y(:,:,4) = train_data{patch{i_test}(2)+1,patch{i_test}(1)+1};
+    Y(:,:,1) = train_data{patch{i_test}(1),patch{i_test}(2)};
+    Y(:,:,2) = train_data{patch{i_test}(1)+1,patch{i_test}(2)};
+    Y(:,:,3) = train_data{patch{i_test}(1),patch{i_test}(2)+1};
+    Y(:,:,4) = train_data{patch{i_test}(1)+1,patch{i_test}(2)+1};
 
     d = zeros(1,4);
     for j = 1:4

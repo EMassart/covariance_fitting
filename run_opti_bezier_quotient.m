@@ -75,7 +75,7 @@ for i_test = 1:l_test
 %     fprintf('Best value obtained from grid = %4.2e \n', error_grid_rec(i_test));
     %-----------------------------------------------------------------------------------------------------------------------------------
 
-    
+
     
     [x_end, info] = steepest_descent_for_bezier_quotient(train_data, C_ref, struct());
     error_SD_rec(i_test) = info.f(info.k);

@@ -7,12 +7,12 @@ function [data,params] = data_points_external_frame(r)
 % Last modification: October 24, 2018
 
 % Values of the parameters that will correspond to the external frame
-heading = 0:1:4;
 magn = 4:3:13;
+heading = 0:1:4;
 
 % Load the data, and truncate the Y matrices to r columns. 
-n = length(heading);
 m = length(magn);
+n = length(heading);
 
 data = cell(m,n);
 l_tot = m*n;
@@ -30,7 +30,7 @@ for i = 1:m
         end
         load(f);
         data{i,j} = Y(:,1:r);        
-        params{count} = [heading(j), magn(i)];
+        params{count} = [magn(i),heading(j)];
     end
 end
 

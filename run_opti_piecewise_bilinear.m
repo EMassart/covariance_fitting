@@ -63,10 +63,10 @@ for i_test = 1:l_test
     
     % select the corners of the patch
     Y = zeros(3024,r,4);
-    Y(:,:,1) = train_data{patch{i_test}(2),patch{i_test}(1)};
-    Y(:,:,2) = train_data{patch{i_test}(2)+1,patch{i_test}(1)};
-    Y(:,:,3) = train_data{patch{i_test}(2),patch{i_test}(1)+1};
-    Y(:,:,4) = train_data{patch{i_test}(2)+1,patch{i_test}(1)+1};
+    Y(:,:,1) = train_data{patch{i_test}(1),patch{i_test}(2)};
+    Y(:,:,2) = train_data{patch{i_test}(1)+1,patch{i_test}(2)};
+    Y(:,:,3) = train_data{patch{i_test}(1),patch{i_test}(2)+1};
+    Y(:,:,4) = train_data{patch{i_test}(1)+1,patch{i_test}(2)+1};
     
     %START SANITY CHECK PART-----------------------------------------------------------------------------------------------------------------------------------
 
@@ -162,7 +162,7 @@ for i_test = 1:l_test
    
 end
 
-save('Results_piecewise_geod.mat', 'error_SD_rec', 'sol_SD_rec', 'params', 'patch', 'r');
+save('Results_piecewise_geod_v2.mat', 'error_SD_rec', 'sol_SD_rec', 'params', 'patch', 'r');
 
     %START SANITY CHECK PART-----------------------------------------------------------------------------------------------------------------------------------
 %     save('Results_patchwise_grid.mat', 'error_grid', 'error_grid_rec');
