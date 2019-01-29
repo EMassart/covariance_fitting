@@ -8,11 +8,11 @@ load error_bezier_quotient_SD.mat;
 error_SD_bezierQ = error_SD_rec;
 sol_SD_bezierG = sol_SD_rec;
 
-load error_bezier_section_SD.mat;
+% load error_bezier_section_SD.mat;
 error_SD_bezierS = error_SD_rec;
 sol_SD_bezierS = sol_SD_rec;
 
-load Results_piecewise_geod.mat;
+% load Results_piecewise_geod.mat;
 error_SD_piecewise = error_SD_rec;
 sol_SD_piecewise = sol_SD_rec;
 
@@ -21,10 +21,11 @@ sol_SD_piecewise = sol_SD_rec;
 s = size(test_data);
 
 error_mean_bezierG = mean(error_SD_bezierQ);
-error_mean_bezierS = mean(error_SD_bezierS,2);
-error_mean_piecewise = mean(error_SD_piecewise,2);
+% error_mean_bezierS = mean(error_SD_bezierS,2);
+% error_mean_piecewise = mean(error_SD_piecewise,2);
 
-E = [error_SD_bezierQ; error_SD_bezierS; error_SD_piecewise];
+E = [error_SD_bezierQ];
+% E = [error_SD_bezierQ; error_SD_bezierS; error_SD_piecewise];
 E2 = E;
 E3 = E;
 d_id = zeros(1,s(1)*s(2));
@@ -59,24 +60,28 @@ for i_test = 1:s(1)*s(2)
 end
 
 params_mat = cat(3,params{:});  % get the value of the parameters associated to the different test points.
-theta = reshape(params_mat(1,1,:),1,s(1)*s(2));
-magn = reshape(params_mat(1,2,:),1,s(1)*s(2));
+theta = reshape(params_mat(1,2,:),1,s(1)*s(2));
+magn = reshape(params_mat(1,1,:),1,s(1)*s(2));
 params_train_mat = cat(3,params_train{:});  % get the value of the parameters associated to the different test points.
 s_train = size(params_train_mat);
-theta_train = reshape(params_train_mat(1,1,:),1,s_train(3));
-magn_train = reshape(params_train_mat(1,2,:),1,s_train(3));
+theta_train = reshape(params_train_mat(1,2,:),1,s_train(3));
+magn_train = reshape(params_train_mat(1,1,:),1,s_train(3));
+
+theta_train = theta_train*180/32;
+theta = theta*180/32;
+
 
 % plot the error for the Bézier with exact geodesics surface
 figure; hold on;
-stem3(theta(1:28), magn(1:28), 100*E3(1,1:28), 'Color', 'r');
-stem3(theta(29:end), magn(29:end), 100*E3(1,29:end), 'Color', 'b');
-stem3(theta_train, magn_train, zeros(size(theta_train)), 'xk');
-ax = gca();
-xlabel('$\theta$','Interpreter','Latex','Fontsize',14);
-ylabel('$W$','Interpreter','Latex','Fontsize',14);
+stem3(magn(1:28), theta(1:28), 100*E3(1,1:28), 'Color', 'k');
+stem3(magn(29:end), theta(29:end), 100*E3(1,29:end), 'Color', 'k');
+stem3(magn_train, theta_train, zeros(size(theta_train)), 'xk');
+xlabel('$W$','Interpreter','Latex','Fontsize',14);
+ylabel('$\theta$','Interpreter','Latex','Fontsize',14);
 zlabel('$E_{\mathrm{N}}(\hat C(\theta_i, W_i))(\%)$','Interpreter','Latex','Fontsize',14);
-ax.XTick = 0:0.5:4;
-ax.YTick = 4:1.5:13;
+set(gca,'XTick',4:1.5:13);
+set(gca,'YTick',linspace(0,22.5,9));
+set(gca,'YtickLabel',sprintf('%2.0f \n',linspace(0,22.5,9)));
 grid on;
 
 % 
